@@ -1,0 +1,54 @@
+/*
+** style.css
+*/
+
+body {
+    font-family: Helvetica, Arial, sans-serif;
+    width: 800px;
+    margin: auto;
+}
+
+h1 {
+    text-align: center;
+    padding: 20px;
+}
+
+nav {
+    font-size: 150%;
+    text-align: center;
+}
+
+a {
+    text-decoration: none;
+    color: red;
+}
+
+pre {
+    font-family: Monaco, Consolas, Courier New, monospace;
+    color: black;
+    background-color: #EEEEEE;
+    margin: 0px;
+    overflow-x: auto;
+}
+
+.block {
+    padding: 20px;
+    border-top: 1px dashed black;
+}
+
+.block + .block {
+    margin-top: 20px;
+}
+
+.snippet__attrs {
+    font-size: 150%;
+}
+
+.snippet__short {
+    height: 200px;
+    overflow-y: hidden;
+}
+
+.form {
+    text-align: center;
+}

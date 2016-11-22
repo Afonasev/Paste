@@ -1,0 +1,43 @@
+% rebase('base.html')
+<form action="/new" method="post">
+<div class="block">
+    <p>
+    <label for="name">Name(optional): </label><input type="text" name="name">
+
+    <label for="name">Syntax: </label><select name="syntax">
+        <option value="plain">Plain text</option>
+        <option value="bash">Bash</option>
+        <option value="c">C</option>
+        <option value="javascript">JavaScript</option>
+        <option value="json">JSON</option>
+        <option value="html">HTML</option>
+        <option value="css">CSS</option>
+        <option value="python">Python</option>
+        <option value="sql">SQL</option>
+        <option value="" disabled="disabled">------------------------------</option>
+        <option value="xml">XML</option>
+        <option value="cpp">C++</option>
+        <option value="ruby">Ruby</option>
+        <option value="php">PHP</option>
+        <option value="perl">Perl</option>
+        <option value="java">Java</option>
+        <option value="diff">Diff</option>
+        <option value="c#">C#</option>
+        <option value="pytb">Python Traceback</option>
+        <option value="html+django">Django HTML templates</option>
+        <option value="lua">Lua</option>
+        <option value="mysql">MySQL</option>
+        <option value="postgresql">PostgreSQL</option>
+        <option value="objectivec">Objective-C</option>
+        <option value="scala">Scala</option>
+        <option value="vim">Vim script</option>
+        <option value="xslt">XSLT</option>
+    </select>
+    </p>
+
+    <p><textarea rows="20" cols="93" name="raw"></textarea></p>
+
+    <input type="submit" name="submit" value="create">
+
+</div>
+</form>

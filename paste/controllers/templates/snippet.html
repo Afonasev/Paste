@@ -1,0 +1,16 @@
+% rebase('base.html')
+<div class="block">
+
+    <p class="snippet__attrs">
+        % if snippet.author:
+            <a href="/user/{{ snippet.author.name }}">@{{ snippet.author.name }}</a> |
+        % end
+        % if snippet.name:
+            <a href="/snippet/{{ snippet.pk }}">{{ snippet.name }}</a> |
+        % end
+        {{ snippet.syntax }} |
+        {{ snippet.created_at.strftime('%Y-%m-%d %H:%M:%S') }}
+    </p>
+
+    <pre class="highlight">{{ !snippet.html }}</pre>
+</div>
