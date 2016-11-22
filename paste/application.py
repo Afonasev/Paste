@@ -5,10 +5,10 @@ Application specific layer
 from collections import defaultdict
 
 from pygments import highlight
-from pygments.lexers import get_lexer_by_name
 from pygments.formatters import HtmlFormatter
+from pygments.lexers import get_lexer_by_name
 
-from .domain import Snippet, IRepository, IHTMLConverter, User
+from .domain import IHTMLConverter, IRepository, Snippet, User
 
 
 class UserRepository(IRepository):
@@ -37,6 +37,9 @@ class UserRepository(IRepository):
 
         return self._users_by_auth[kw['name'] + kw['passhash']]
 
+    def filter(self, page: int, size: int, **kw) -> [User]:
+        return self._users_by_pk.values()
+
 
 class SnippetRepository(IRepository):
 
@@ -58,7 +61,8 @@ class SnippetRepository(IRepository):
     def get(self, **kw) -> Snippet:
         return self._snippets_by_pk[kw['pk']]
 
-    def filter(self, page: int, size: int, author: User=None) -> [Snippet]:
+    def filter(self, page: int, size: int, **kw) -> [Snippet]:
+        author = kw.get('author')
         to_index = page * size
         from_index = to_index - size
 

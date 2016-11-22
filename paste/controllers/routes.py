@@ -1,9 +1,9 @@
-from bottle import view, get, post, redirect, request, response, static_file
+from bottle import get, post, redirect, request, response, static_file, view
 
+from .services import snippet_service, user_service
+from .utils import get_current_user, inject_user, not_found_handler
 from .. import settings
 from ..domain import Snippet, User
-from .utils import not_found_handler, inject_user, get_current_user
-from .services import snippet_service, user_service
 
 
 @get('/')
@@ -62,8 +62,7 @@ def register_form():
 @post('/register')
 def register():
     user = user_service.register(User(
-        name=request.forms['name'],
-        password=request.forms['password'],
+        name=request.forms.name, password=request.forms.password,
     ))
 
     response.set_cookie('user', user.pk, secret=settings.SECRET_KEY)
@@ -80,7 +79,7 @@ def login_form():
 def login():
     try:
         user = user_service.auth(
-            request.forms['name'], request.forms['password'],
+            request.forms.name, request.forms.password,
         )
     except KeyError:
         redirect('/login')

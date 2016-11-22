@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-from bottle import default_app, TEMPLATE_PATH
+from bottle import TEMPLATE_PATH, default_app
 from paste import settings
 from paste.controllers import hooks, middlewares, routes  # noqa pylint: disable=unused-variable
 

@@ -8,38 +8,43 @@ import hashlib
 
 class Entity:
 
-    def __init__(self, pk: int=None, created_at: dt.datetime=None):
-        self.pk = pk
-        self.created_at = created_at
+    attrs = {
+        'pk': int,
+        'created_at': dt.datetime,
+    }
+
+    def __init__(self, **kw):
+        for k in self.attrs:
+            setattr(self, k, None)
+
+        for k, v in kw.items():
+            if k not in self.attrs:
+                raise AttributeError(k)
+
+            if v is not None and not isinstance(v, self.attrs[k]):
+                raise TypeError('%r is not %r' % (v, self.attrs[k]))
+
+            setattr(self, k, v)
 
 
 class User(Entity):
 
-    def __init__(
-        self, name: str, password: str=None, passhash: str=None, *args, **kw
-    ):
-        super().__init__(*args, **kw)
-        self.name = name
-        self.password = password
-        self.passhash = passhash
+    attrs = dict({
+        'name': str,
+        'password': str,
+        'passhash': str,
+    }, **Entity.attrs)
 
 
 class Snippet(Entity):
 
-    def __init__(
-        self,
-        raw: str,
-        syntax: str,
-        name: str=None,
-        author: User=None,
-        html: str=None,
-        *args, **kw
-    ):
-        super().__init__(*args, **kw)
-        self.raw = raw
-        self.syntax = syntax
-        self.name = name
-        self.author = author
+    attrs = dict({
+        'raw': str,
+        'syntax': str,
+        'name': str,
+        'author': User,
+        'html': str,
+    }, **Entity.attrs)
 
 
 class IRepository:

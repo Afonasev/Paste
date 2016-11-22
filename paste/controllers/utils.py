@@ -1,7 +1,7 @@
 from bottle import abort, request
 
-from .. import settings
 from .services import user_service
+from .. import settings
 
 
 def not_found_handler(f):
