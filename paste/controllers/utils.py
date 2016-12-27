@@ -1,14 +1,14 @@
 from bottle import abort, request
 
 from .services import user_service
-from .. import settings
+from .. import domain, settings
 
 
 def not_found_handler(f):
     def wrap(*args, **kw):
         try:
             return f(*args, **kw)
-        except KeyError:
+        except domain.DoesNotExist:
             abort(404)
     return wrap
 
