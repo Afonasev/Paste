@@ -2,60 +2,56 @@
 Domain specific layer
 """
 
-import datetime as dt
 import hashlib
+
+
+class DoesNotExist(Exception):
+    pass
 
 
 class Entity:
 
-    attrs = {
-        'pk': int,
-        'created_at': dt.datetime,
-    }
-
-    def __init__(self, **kw):
-        for k in self.attrs:
-            setattr(self, k, None)
-
-        for k, v in kw.items():
-            if k not in self.attrs:
-                raise AttributeError(k)
-
-            if v is not None and not isinstance(v, self.attrs[k]):
-                raise TypeError('%r is not %r' % (v, self.attrs[k]))
-
-            setattr(self, k, v)
+    def __init__(self, pk=None, created_at=None, updated_at=None):
+        self.pk = pk
+        self.created_at = created_at
+        self.updated_at = updated_at
 
 
 class User(Entity):
 
-    attrs = dict({
-        'name': str,
-        'password': str,
-        'passhash': str,
-    }, **Entity.attrs)
+    def __init__(self, name, password=None, passhash=None, **kw):
+        super().__init__(**kw)
+        self.name = name
+        self.password = password
+        self.passhash = passhash
 
 
 class Snippet(Entity):
 
-    attrs = dict({
-        'raw': str,
-        'syntax': str,
-        'name': str,
-        'author': User,
-        'html': str,
-    }, **Entity.attrs)
+    def __init__(self, raw, syntax, html=None, name=None, author=None, **kw):
+        super().__init__(**kw)
+        self.raw = raw
+        self.syntax = syntax
+        self.name = name
+        self.author = author
+        self.html = html
 
 
 class IRepository:
+
+    def count(self) -> int:
+        raise NotImplementedError
 
     def save(self, entity: Entity) -> Entity:
         raise NotImplementedError
 
     def get(self, **kw) -> Entity:
+        """
+        raise DoesNotExist if object not founded
+        """
         raise NotImplementedError
 
-    def filter(self, page: int, size: int, **kw) -> [Entity]:
+    def find(self, page: int, size: int, **kw) -> [Entity]:
         raise NotImplementedError
 
 
@@ -67,53 +63,51 @@ class IHTMLConverter:
 
 class Service:
 
-    def __init__(self, repository: IRepository):
+    def __init__(self, repository):
         self._repository = repository
 
-    def get_by_pk(self, pk: int) -> Entity:
+    def get_by_pk(self, pk):
         return self._get(pk=pk)
 
-    def _get(self, **kw) -> Entity:
+    def _get(self, **kw):
         return self._repository.get(**kw)
 
-    def _filter(self, **kw) -> Entity:
-        return self._repository.filter(**kw)
+    def _find(self, **kw):
+        return self._repository.find(**kw)
 
-    def _create(self, entity: Entity) -> Entity:
-        entity.created_at = dt.datetime.utcnow()
+    def _create(self, entity):
         return self._repository.save(entity)
 
 
 class UserService(Service):
 
-    def register(self, user: User) -> User:
+    def register(self, user):
         user.passhash = get_hash(user.password)
         return self._create(user)
 
-    def auth(self, name: str, password: str) -> User:
+    def auth(self, name, password):
         return self._get(name=name, passhash=get_hash(password))
 
-    def get_by_name(self, name: str) -> User:
+    def get_by_name(self, name):
         return self._get(name=name)
 
 
 class SnippetService(Service):
 
-    def __init__(self, converter: IHTMLConverter, *args, **kw):
+    def __init__(self, converter, *args, **kw):
         super().__init__(*args, **kw)
         self._converter = converter
 
-    def filter(
-        self, page: int=1, size: int=20, author: User=None,
-    ) -> [Snippet]:
-        return self._filter(page=page, size=size, author=author)
+    def get_page(self, page=1, size=20, author=None):
+        query = {'page': page, 'size': size}
+        if author is not None:
+            query['author'] = author
+        return self._find(**query)
 
-    def create(self, snippet: Snippet) -> Snippet:
-        snippet.html = self._converter.handle(
-            snippet.raw, snippet.syntax,
-        )
+    def create(self, snippet):
+        snippet.html = self._converter.handle(snippet.raw, snippet.syntax)
         return self._create(snippet)
 
 
-def get_hash(text: str) -> str:
+def get_hash(text):
     return hashlib.sha256(text.encode()).hexdigest()

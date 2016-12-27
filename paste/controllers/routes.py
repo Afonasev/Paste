@@ -3,7 +3,7 @@ from bottle import get, post, redirect, request, response, static_file, view
 from .services import snippet_service, user_service
 from .utils import get_current_user, inject_user, not_found_handler
 from .. import settings
-from ..domain import Snippet, User
+from ..domain import DoesNotExist, Snippet, User
 
 
 @get('/')
@@ -15,7 +15,7 @@ def index():
 @view('list.html')
 @inject_user
 def last_snippets():
-    return {'snippets': snippet_service.filter()}
+    return {'snippets': snippet_service.get_page()}
 
 
 @get('/new')
@@ -50,7 +50,7 @@ def get_snippet(pk):
 @not_found_handler
 def user_snippets(name):
     user = user_service.get_by_name(name)
-    return {'snippets': snippet_service.filter(author=user)}
+    return {'snippets': snippet_service.get_page(author=user)}
 
 
 @get('/register')
@@ -81,7 +81,7 @@ def login():
         user = user_service.auth(
             request.forms.name, request.forms.password,
         )
-    except KeyError:
+    except DoesNotExist:
         redirect('/login')
 
     response.set_cookie('user', user.pk, secret=settings.SECRET_KEY)
