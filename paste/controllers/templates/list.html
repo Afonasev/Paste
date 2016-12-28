@@ -2,19 +2,23 @@
 % for snippet in snippets:
 <div class="block">
 
-    <p class="snippet__attrs">
+    <div class="snippet__attrs">
+    % if snippet.name:
+        <p>{{ snippet.name }}</p>
+    % end
+
+    <p>
         % if snippet.author:
             <a href="/user/{{ snippet.author.name }}">@{{ snippet.author.name }}</a> |
         % end
-        % if snippet.name:
-            <a href="/snippet/{{ snippet.pk }}">{{ snippet.name }}</a> |
-        % end
         {{ snippet.syntax }} |
-        {{ snippet.created_at.strftime('%Y-%m-%d %H:%M:%S') }}
-         % if defined('user') and user == snippet.author:
+        {{ snippet.created_at.strftime('%Y-%m-%d %H:%M:%S') }} |
+        <a href="/snippet/{{ snippet.pk }}/text">text</a>
+        % if defined('user') and user == snippet.author:
             | <a href="/snippet/{{ snippet.pk }}/delete">remove</a>
         % end
     </p>
+    </div>
 
     <a href="/snippet/{{ snippet.pk }}">
         <pre class="highlight snippet__short">{{ !snippet.html }}</pre>
