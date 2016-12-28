@@ -1,7 +1,16 @@
-from bottle import abort, request
+from bottle import abort, redirect, request
 
 from .services import user_service
 from .. import domain, settings
+
+
+def auth_required(f):
+    def wrap(*args, **kw):
+        user = get_current_user()
+        if user is None:
+            redirect('/login')
+        return f(user, *args, **kw)
+    return wrap
 
 
 def not_found_handler(f):

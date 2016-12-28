@@ -11,6 +11,9 @@
         % end
         {{ snippet.syntax }} |
         {{ snippet.created_at.strftime('%Y-%m-%d %H:%M:%S') }}
+         % if defined('user') and user == snippet.author:
+            | <a href="/snippet/{{ snippet.pk }}/delete">remove</a>
+        % end
     </p>
 
     <a href="/snippet/{{ snippet.pk }}">
