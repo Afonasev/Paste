@@ -4,7 +4,7 @@ import peewee
 from .. import settings
 
 database = peewee.SqliteDatabase(
-    settings.DATABASE, threadlocals=True, autocommit=True,
+    settings.DATABASE, threadlocals=True, autocommit=True, journal_mode='WAL',
 )
 
 

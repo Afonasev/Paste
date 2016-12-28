@@ -1,9 +1,11 @@
-from bottle import get, post, redirect, request, response, static_file, view
+from bottle import (abort, get, post, redirect, request, response, static_file,
+                    view)
 
 from .services import snippet_service, user_service
-from .utils import get_current_user, inject_user, not_found_handler
+from .utils import (auth_required, get_current_user, inject_user,
+                    not_found_handler)
 from .. import settings
-from ..domain import DoesNotExist, Snippet, User
+from ..domain import AccessDenied, DoesNotExist, Snippet, User
 
 
 @get('/')
@@ -51,6 +53,18 @@ def get_snippet(pk):
 def user_snippets(name):
     user = user_service.get_by_name(name)
     return {'snippets': snippet_service.get_page(author=user)}
+
+
+@get('/snippet/<pk:int>/delete')
+@not_found_handler
+@auth_required
+def delete_snippet(user, pk):
+    try:
+        snippet_service.delete(user, snippet_service.get_by_pk(pk))
+    except AccessDenied:
+        abort(403)
+
+    redirect('/user/' + user.name)
 
 
 @get('/register')

@@ -9,12 +9,21 @@ class DoesNotExist(Exception):
     pass
 
 
+class AccessDenied(Exception):
+    pass
+
+
 class Entity:
 
     def __init__(self, pk=None, created_at=None, updated_at=None):
         self.pk = pk
         self.created_at = created_at
         self.updated_at = updated_at
+
+    def __eq__(self, v):
+        if not isinstance(v, Entity) or self.pk != v.pk:
+            return False
+        return True
 
 
 class User(Entity):
@@ -52,6 +61,9 @@ class IRepository:
         raise NotImplementedError
 
     def find(self, page: int, size: int, **kw) -> [Entity]:
+        raise NotImplementedError
+
+    def delete(self, entity: Entity):
         raise NotImplementedError
 
 
@@ -107,6 +119,13 @@ class SnippetService(Service):
     def create(self, snippet):
         snippet.html = self._converter.handle(snippet.raw, snippet.syntax)
         return self._create(snippet)
+
+    def delete(self, requester, snippet):
+        print(requester.pk)
+        print(snippet.author.pk)
+        if requester != snippet.author:
+            raise AccessDenied
+        self._repository.delete(snippet)
 
 
 def get_hash(text):

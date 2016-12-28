@@ -15,9 +15,6 @@ class AbstractRepository(domain.IRepository):
         return self._model.count()
 
     def save(self, entity):
-        if not isinstance(entity, self._entity):
-            raise ValueError
-
         model = _entity_to_model(entity)
 
         if model.pk is None:
@@ -44,6 +41,9 @@ class AbstractRepository(domain.IRepository):
             query = self._model.select()
 
         return [_model_to_entity(i) for i in query.paginate(page, size)]
+
+    def delete(self, entity):
+        _entity_to_model(entity).delete_instance()
 
 
 class UserRepository(AbstractRepository):
