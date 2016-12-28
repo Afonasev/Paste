@@ -46,6 +46,13 @@ def get_snippet(pk):
     return {'snippet': snippet_service.get_by_pk(pk)}
 
 
+@get('/snippet/<pk:int>/text')
+@not_found_handler
+def get_text_snippet(pk):
+    response.content_type = 'text;charset=utf-8'
+    return snippet_service.get_by_pk(pk).raw
+
+
 @get('/user/<name>')
 @view('list.html')
 @inject_user
