@@ -1,11 +1,12 @@
-from bottle import (abort, get, post, redirect, request, response, static_file,
-                    view)
+from bottle import abort, get, post, redirect, \
+    request, response, static_file, view
+
+from paste import settings
+from paste.domain import AccessDenied, DoesNotExist, Snippet, User
 
 from .services import snippet_service, user_service
-from .utils import (auth_required, get_current_user, inject_user,
-                    not_found_handler)
-from .. import settings
-from ..domain import AccessDenied, DoesNotExist, Snippet, User
+from .utils import auth_required, get_current_user, \
+    inject_user, not_found_handler
 
 
 @get('/')

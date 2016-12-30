@@ -3,10 +3,10 @@ Migration '0001_initial.py'
 Created at 2016-12-09T15:15:28.921328
 """
 
-from playhouse.migrate import SqliteDatabase, SqliteMigrator, migrate
+from playhouse.migrate import migrate, SqliteDatabase, SqliteMigrator
 
-from paste import settings  # noqa
-from paste.application.db import Snippet, User  # noqa
+from paste import settings
+from paste.application.db import Snippet, User
 
 
 def apply():

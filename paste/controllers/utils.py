@@ -1,7 +1,8 @@
 from bottle import abort, redirect, request
 
+from paste import domain, settings
+
 from .services import user_service
-from .. import domain, settings
 
 
 def auth_required(f):

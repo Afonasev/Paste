@@ -2,8 +2,9 @@ from datetime import datetime
 
 import peewee
 
+from paste import domain
+
 from . import db
-from .. import domain
 
 
 class AbstractRepository(domain.IRepository):
