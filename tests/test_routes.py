@@ -8,8 +8,8 @@ from unittest import TestCase
 from migrator.application import migrator_factory
 from webtest import AppError, TestApp
 
-from paste import settings  # noqa
-from wsgi import app  # noqa
+from paste import settings
+from wsgi import app
 
 
 def check_location(response, path):

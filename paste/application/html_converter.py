@@ -3,7 +3,7 @@ from pygments import highlight
 from pygments.formatters import HtmlFormatter
 from pygments.lexers import get_lexer_by_name
 
-from ..domain import IHTMLConverter
+from paste.domain import IHTMLConverter
 
 
 class HTMLConverter(IHTMLConverter):

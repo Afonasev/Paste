@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 import logging
 
-from bottle import TEMPLATE_PATH, default_app
+from bottle import default_app, TEMPLATE_PATH
+
 from paste import settings
 from paste.controllers import hooks, middlewares, routes  # noqa pylint: disable=unused-variable
 
