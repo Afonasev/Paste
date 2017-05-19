@@ -121,8 +121,6 @@ class SnippetService(Service):
         return self._create(snippet)
 
     def delete(self, requester, snippet):
-        print(requester.pk)
-        print(snippet.author.pk)
         if requester != snippet.author:
             raise AccessDenied
         self._repository.delete(snippet)

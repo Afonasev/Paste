@@ -1,11 +1,9 @@
 % rebase('base.html')
 <form action="/new" method="post">
 <div class="block">
-    <p>
-    <label for="name">Name(optional): </label><input type="text" name="name">
-
-    <label for="name">Syntax: </label><select name="syntax">
-        <option value="plain">Plain text</option>
+    <input type="text" name="name" placeholder="snippet name (optional)">
+    <select name="syntax">
+        <option value="plain">Select language (optional)</option>
         <option value="markdown">Markdown</option>
         <option value="bash">Bash</option>
         <option value="c">C</option>
@@ -15,7 +13,6 @@
         <option value="css">CSS</option>
         <option value="python">Python</option>
         <option value="sql">SQL</option>
-        <option value="" disabled="disabled">------------------------------</option>
         <option value="xml">XML</option>
         <option value="cpp">C++</option>
         <option value="ruby">Ruby</option>
@@ -34,11 +31,7 @@
         <option value="vim">Vim script</option>
         <option value="xslt">XSLT</option>
     </select>
-    </p>
-
-    <p><textarea rows="20" cols="93" name="raw"></textarea></p>
-
+    <textarea rows="20" cols="93" name="raw"></textarea>
     <input type="submit" name="submit" value="create">
-
 </div>
 </form>

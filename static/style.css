@@ -23,17 +23,8 @@ a {
     color: red;
 }
 
-pre {
-    font-family: Monaco, Consolas, Courier New, monospace;
-    color: black;
-    background-color: #EEEEEE;
-    margin: 0px;
-    overflow-x: auto;
-}
-
 .block {
     padding: 20px;
-    border-top: 1px dashed black;
 }
 
 .block + .block {
@@ -47,6 +38,15 @@ pre {
 .snippet__short {
     height: 200px;
     overflow-y: hidden;
+}
+
+.snippet__html {
+    font-family: Monaco, Consolas, Courier New, monospace;
+    color: black;
+    margin: 0px;
+    overflow-x: auto;
+    padding: 20px;
+    border: 0.5px solid gray;
 }
 
 .form {
