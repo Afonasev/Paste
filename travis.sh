@@ -1,9 +1,10 @@
 set -e
 
 pip install -r requirements.txt
+isort -c
+flake8 paste tests
+pylint paste tests
 py.test --cov=./paste
-flake8
-pylint paste
 
 push="push"
 
