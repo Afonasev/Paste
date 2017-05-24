@@ -20,9 +20,22 @@
 
 ### Code linting
 
-    flake8
-    pylint paste
+    flake8 paste tests
+    pylint paste tests
+
+### Sort imports
+
+    isort -rc paste tests
 
 ### Code Style
 
 * [PEP8](https://www.python.org/dev/peps/pep-0008/)
+
+### Git pre-commit hook
+
+    #!/bin/bash
+    set -e
+    isort -c
+    flake8 paste tests
+    pylint paste tests
+    py.test --cov=./paste

@@ -4,7 +4,7 @@ import logging
 from bottle import default_app, TEMPLATE_PATH
 
 from paste import settings
-from paste.controllers import hooks, middlewares, routes  # noqa pylint: disable=unused-variable
+from paste.controllers import hooks, middlewares, routes
 
 app = default_app()
 app.config.SECRET_KEY = settings.SECRET_KEY
