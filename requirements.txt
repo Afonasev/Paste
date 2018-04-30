@@ -7,7 +7,7 @@ Pygments==2.1.3
 pylint==1.7.1
 pytest==3.0.3
 pytest-cov==2.4.0
-peewee==2.8.5
+peewee==3.3.1
 WebTest==2.0.23
 -e git+https://github.com/Afonasev/Migrator@v0.2#egg=migrator
 Markdown==2.6.7
