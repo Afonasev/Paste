@@ -10,4 +10,4 @@ pytest-cov==2.5.1
 peewee==2.8.5
 WebTest==2.0.29
 -e git+https://github.com/Afonasev/Migrator@v0.2#egg=migrator
-Markdown==2.6.7
+Markdown==2.6.11
